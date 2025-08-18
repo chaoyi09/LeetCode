@@ -11,10 +11,8 @@ class Solution:
         res = float('inf')
         for coin in coins:
             subProblem = self.dp(coins, amount - coin)
-
             if subProblem == -1:
                 continue
-
             res = min(res, subProblem + 1)
 
         return res if res != float('inf') else -1
