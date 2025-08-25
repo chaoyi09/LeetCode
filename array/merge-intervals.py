@@ -10,6 +10,4 @@ class Solution:
                 output[-1][1] = max(lastEnd, end)
             else:
                 output.append([start, end])
-
         return output
-
