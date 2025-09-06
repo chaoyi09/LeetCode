@@ -1,23 +1,12 @@
+from typing import List
+
 class Solution:
-    def longestValidParentheses(self, s: str) -> int:
-        ans = left = right = 0
-        for ch in s:
-            if ch == '(':
-                left += 1
+    def sortArrayByParity(self, nums: List[int]) -> List[int]:
+        i, j = 0, len(nums) - 1
+        while i < j:
+            if nums[i] % 2 == 0:
+                i += 1
             else:
-                right += 1
-            if left == right:
-                ans = max(ans, 2 * right)
-            elif right > left:
-                left = right = 0
-        left = right = 0
-        for ch in reversed(s):
-            if ch == ')':
-                right += 1
-            else:
-                left += 1
-            if left == right:
-                ans = max(ans, 2 * left)
-            elif left > right:
-                left = right = 0
-        return ans
+                nums[i], nums[j] = nums[j], nums[i]
+                j -= 1
+        return nums
