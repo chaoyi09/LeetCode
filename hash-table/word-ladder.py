@@ -1,53 +1,38 @@
 from typing import List
-from collections import deque, defaultdict
+from collections import deque
 
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        
-        if endWord not in wordList:
-            return 0
-        
-        if not wordList:
-            return 0
-        
         word_set = set(wordList)
-        
-        return self.bidirectionalBFS(beginWord, endWord, word_set)
-    
-    def bidirectionalBFS(self, beginWord: str, endWord: str, word_set: set) -> int:
+        if endWord not in word_set:
+            return 0
 
-        if beginWord == endWord:
-            return 1
-        
-        begin_set = {beginWord}
-        end_set = {endWord}
-        
-        visited = {beginWord, endWord}
-        
-        steps = 1
-        
-        while begin_set and end_set:
-            if len(begin_set) > len(end_set):
-                begin_set, end_set = end_set, begin_set
-            
-            next_set = set()
-            
-            for word in begin_set:
-                for i in range(len(word)):
-                    for c in 'abcdefghijklmnopqrstuvwxyz':
-                        if c == word[i]:
+        front = {beginWord}
+        back = {endWord}
+        L = len(beginWord)
+        step = 1
+
+        while front and back:
+            if len(front) > len(back):
+                front, back = back, front
+
+            next_front = set()
+            for w in front:
+                w_list = list(w)
+                for i in range(L):
+                    original = w_list[i]
+                    for c in "abcdefghijklmnopqrstuvwxyz":
+                        if c == original:
                             continue
-                        
-                        new_word = word[:i] + c + word[i+1:]
-                        
-                        if new_word in end_set:
-                            return steps + 1
-                        
-                        if new_word in word_set and new_word not in visited:
-                            next_set.add(new_word)
-                            visited.add(new_word)
-            
-            begin_set = next_set
-            steps += 1
-        
+                        w_list[i] = c
+                        nw = "".join(w_list)
+                        if nw in back:
+                            return step + 1
+                        if nw in word_set:
+                            next_front.add(nw)
+                            word_set.remove(nw)
+                    w_list[i] = original
+            front = next_front
+            step += 1
+
         return 0
