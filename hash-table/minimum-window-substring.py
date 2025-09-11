@@ -1,27 +1,18 @@
-from collections import Counter, defaultdict
-
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        if not t or not s:
-            return ""
-        need = Counter(t)
-        window = defaultdict(int)
-        required = len(need)
-        formed = 0
-        l = 0
-        best_len, best_l, best_r = float("inf"), 0, 0
-
-        for r, ch in enumerate(s):
-            window[ch] += 1
-            if ch in need and window[ch] == need[ch]:
-                formed += 1
-            while l <= r and formed == required:
+        if not s or not t: return ""
+        need = [0]*128
+        for c in t: need[ord(c)] += 1
+        missing = len(t); l = 0
+        best_len = float("inf"); best_l = 0
+        for r, c in enumerate(s):
+            i = ord(c)
+            if need[i] > 0: missing -= 1
+            need[i] -= 1
+            while missing == 0:
                 if r - l + 1 < best_len:
-                    best_len, best_l, best_r = r - l + 1, l, r
-                c = s[l]
-                window[c] -= 1
-                if c in need and window[c] < need[c]:
-                    formed -= 1
+                    best_len, best_l = r - l + 1, l
+                li = ord(s[l]); need[li] += 1
+                if need[li] > 0: missing += 1
                 l += 1
-
-        return "" if best_len == float("inf") else s[best_l:best_r + 1]
+        return "" if best_len == float("inf") else s[best_l:best_l+best_len]
