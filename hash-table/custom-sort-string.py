@@ -1,14 +1,19 @@
+from collections import Counter
+from typing import Dict
+
 class Solution:
     def customSortString(self, order: str, s: str) -> str:
-        cnt =Counter(s)
+        cnt: Dict[str, int] = Counter(s)
+
         ans = []
+        for ch in order:
+            if ch in cnt and cnt[ch] > 0:
+                ans.append(ch * cnt[ch])
+                cnt[ch] = 0
 
-        for c in order:
-            if cnt[c]:
-                ans.append(c * cnt[c])
-                del cnt[c]
+        for ch, c in cnt.items():
+            if c > 0:
+                ans.append(ch * c)
 
-        for c, k in cnt.items():
-            ans.append(c * k)
+        return "".join(ans)
 
-        return ''.join(ans)
