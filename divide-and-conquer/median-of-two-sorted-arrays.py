@@ -10,7 +10,7 @@ class Solution:
             i = (left + right) // 2
             j = (m + n + 1) // 2 - i
 
-            left1 = float('inf') if i == 0 else nums1[i - 1]
+            left1 = float('-inf') if i == 0 else nums1[i - 1]
             right1 = float('inf') if i == m else nums1[i]
             left2 = float('-inf') if j == 0 else nums2[j - 1]
             right2 = float('inf') if j == n else nums2[j]
