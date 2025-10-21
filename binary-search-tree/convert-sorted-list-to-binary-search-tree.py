@@ -11,19 +11,23 @@
 #         self.right = right
 class Solution:
     def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
-        arr = []
-        while head:
-            arr.append(head.val)
-            head = head.next
+        n = 0
+        cur = head
+        while cur:
+            n += 1
+            cur = cur.next
 
-        def build(l: int, r: int) -> Optional[TreeNode]:
-            if l > r:
+        self.ptr = head
+
+        def build(l:int, r: int) -> Optional[TreeNode]:
+            if l > r :
                 return None
 
             m = (l + r) // 2
-            root = TreeNode(arr[m])
-            root.left = build(l, m - 1)
+            left = build(l, m - 1)
+            root = TreeNode(self.ptr.val)
+            self.ptr = self.ptr.next
+            root.left = left
             root.right = build(m + 1, r)
             return root
-
-        return build(0, len(arr) - 1)
+        return build(0, n -1)
