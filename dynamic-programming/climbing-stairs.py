@@ -1,6 +1,6 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        sqrt = math.sqrt(5)
+        sqrt5 = math.sqrt(5)
         phi = (1 + sqrt5) / 2
         psi = (1 - sqrt5) / 2
 
